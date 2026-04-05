@@ -1,0 +1,10 @@
+# Ignorar capturas de datos pesadas
+capturas/*.csv
+capturas/*.pcapng
+
+# Ignorar archivos generados automáticamente
+src/base_hechos.pl
+
+# Ignorar temporales de Python y VS Code
+__pycache__/
+.vscode/
