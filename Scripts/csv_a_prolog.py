@@ -23,13 +23,12 @@ def procesar_todos_los_csv():
     print(f"Se encontraron {len(archivos_csv)} capturas CSV. Iniciando traducción...\n")
 
     # Abrimos el archivo de Prolog para escribir todo consolidado
+    total_hechos = 0
     with open(ruta_prolog, mode='w', encoding='utf-8') as f_pl:
         f_pl.write("% ==========================================\n")
         f_pl.write("% Base de Conocimiento de Tráfico (ALOT)\n")
         f_pl.write("% Autogenerada desde múltiples capturas\n")
         f_pl.write("% ==========================================\n")
-        
-        total_hechos = 0
 
         # Iteramos sobre cada archivo CSV que encontró
         for archivo in archivos_csv:
@@ -56,7 +55,7 @@ def procesar_todos_los_csv():
                     
                     hecho = f"paquete({id_unico}, {tiempo}, {protocolo}, '{ip_src}', '{ip_dst}', '{info}').\n"
                     f_pl.write(hecho)
-                    total_hechos += 1
+                    total_hechos = total_hechos + 1
                     
     print(f"\nTraducción masiva completada con éxito!")
     print(f"Se generaron {total_hechos} hechos lógicos en total.")
