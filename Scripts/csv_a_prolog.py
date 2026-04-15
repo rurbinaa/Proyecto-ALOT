@@ -53,7 +53,7 @@ def procesar_todos_los_csv():
                     # le pegamos el nombre del archivo al ID del paquete como texto.
                     id_unico = f"'{nombre_archivo}_pkt{id_paquete}'"
                     
-                    hecho = f"paquete({id_unico}, {tiempo}, {protocolo}, '{ip_src}', '{ip_dst}', '{info}').\n"
+                    hecho = f"paquete({id_unico}, {tiempo}, '{protocolo}', '{ip_src}', '{ip_dst}', '{info}').\n"
                     f_pl.write(hecho)
                     total_hechos = total_hechos + 1
                     
