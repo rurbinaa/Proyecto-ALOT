@@ -1,5 +1,4 @@
 :- use_module(library(pce)).
-
 :- consult('motor_logico.pl').
 
 % ==========================================
@@ -24,17 +23,30 @@ tip_medir_hum :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'S
 % ==========================================
 % 2. GENERADORES DE REPORTES GRAFICOS
 % ==========================================
-recomendar_zoo(Raza, Prop, Nut, Est, Luz) :-
-    new(V, dialog('Dictamen de Recomendacion Zootecnica')),
-    send(V, append, new(L, list_browser)), send(L, size, size(90, 8)),
+% NUEVO REPORTE ZOOTECNICO (Modo Recomendacion)
+generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
+    new(V, dialog('Dictamen Zootecnico de Compra')),
+    send(V, append, new(L, list_browser)), send(L, size, size(90, 10)),
     
-    eval_zoo(Raza, Prop, M1), send(L, append, M1),
+    send(L, append, '--- RAZAS IDEALES PARA COMPRAR ---'),
+    
+    % Bucle que busca todas las vacas que cumplan con los requisitos
+    (   buscar_raza_ideal(Prop, Est, Luz, RazaIdeal),
+        atomic_list_concat(['> Puedes comprar: [', RazaIdeal, '] - Soporta tus condiciones.'], Fila), 
+        send(L, append, Fila), fail
+    ;   true ),
+    
+    % Validacion si ninguna vaca sobrevive
+    ( get(L?members, size, 1) -> send(L, append, 'ALERTA: Ninguna raza bovina sobrevivira a estas condiciones extremas.') ; true ),
+    
+    send(L, append, ' '),
+    send(L, append, '--- RENDIMIENTO ESPERADO ---'),
     eval_nut(Prop, Nut, M2), send(L, append, M2),
-    eval_cli(Raza, Est, M3), send(L, append, M3),
-    eval_luz(Raza, Prop, Luz, M4), send(L, append, M4),
+    eval_luz_prod(Prop, Luz, M4), send(L, append, M4),
     
     send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered).
 
+% REPORTE AGRICOLA (Se mantiene igual)
 recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
     parse_num(TempStr, ResTemp),
     ( ResTemp = num(N_Temp) ->
@@ -46,7 +58,7 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
             eval_ph(CatPH, MinPH, MaxPH), TempC >= MinT, TempC =< MaxT, eval_hum(CatHum, MinH, MaxH),
             atomic_list_concat(['[RECOMENDADO] Siembla ', Nom, ' sin problemas.'], Fila), send(L, append, Fila), fail
         ;   true ),
-        ( get(L?members, size, 0) -> send(L, append, 'ALERTA: Ningun cultivo se adapta a estos rangos tan especificos.') ; true ),
+        ( get(L?members, size, 0) -> send(L, append, 'ALERTA: Ningun cultivo se adapta a estos rangos.') ; true ),
         
         send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered)
     ;   send(@display, inform, 'Por favor ingresa la temperatura numerica (Ej: 25.5)')
@@ -56,14 +68,11 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
 % 3. FORMULARIOS DE CAPTURA
 % ==========================================
 modulo_recomendar_zoo :-
-    new(F, dialog('Recomendador Zootecnico')),
-    send(F, append, new(_, label(ayuda, 'TIP: Al seleccionar una opcion, el boton de ayuda se actualiza.'))),
+    new(F, dialog('Perfil de tu Finca (Bovinos)')),
+    send(F, append, new(_, label(ayuda, 'Ingresa las condiciones de tu finca para saber que raza comprar:'))),
     send(F, append, new(_, label(e0, ' '))),
     
-    send(F, append, new(InRaza, menu('Raza', cycle))), send_list(InRaza, append, [brahman, nelore, senepol, holstein, jersey, gyr, girolando, pardo_suizo, angus, hereford, charolais]),
-    send(F, append, new(BtnRaza, button('? brahman', message(@prolog, mostrar_tip_dinamico, InRaza?selection))), right),
-    send(InRaza, message, message(@prolog, actualizar_label_boton, InRaza?selection, BtnRaza)),
-    
+    % Se elimino la Raza. Ahora empezamos directo por el Proposito.
     send(F, append, new(InProp, menu('Proposito', cycle))), send_list(InProp, append, [carne, leche, doble_proposito]),
     send(F, append, new(BtnProp, button('? carne', message(@prolog, mostrar_tip_dinamico, InProp?selection))), right),
     send(InProp, message, message(@prolog, actualizar_label_boton, InProp?selection, BtnProp)),
@@ -72,7 +81,7 @@ modulo_recomendar_zoo :-
     send(F, append, new(BtnNut, button('? pobre', message(@prolog, mostrar_tip_dinamico, InNut?selection))), right),
     send(InNut, message, message(@prolog, actualizar_label_boton, InNut?selection, BtnNut)),
     
-    send(F, append, new(InEst, menu('Estres', cycle))), send_list(InEst, append, [leve, moderado, severo]),
+    send(F, append, new(InEst, menu('Clima (Estres)', cycle))), send_list(InEst, append, [leve, moderado, severo]),
     send(F, append, new(BtnEst, button('? leve', message(@prolog, mostrar_tip_dinamico, InEst?selection))), right),
     send(InEst, message, message(@prolog, actualizar_label_boton, InEst?selection, BtnEst)),
     
@@ -81,13 +90,13 @@ modulo_recomendar_zoo :-
     send(InLuz, message, message(@prolog, actualizar_label_boton, InLuz?selection, BtnLuz)),
     
     send(F, append, new(_, label(e, ' '))),
-    send(F, append, button('GENERAR RECOMENDACION', message(@prolog, recomendar_zoo, InRaza?selection, InProp?selection, InNut?selection, InEst?selection, InLuz?selection))),
+    send(F, append, button('BUSCAR MEJORES RAZAS', message(@prolog, generar_recomendacion_zoo, InProp?selection, InNut?selection, InEst?selection, InLuz?selection))),
     send(F, append, button('Volver', message(F, destroy))),
     send(F, open_centered).
 
 modulo_recomendar_agro :-
-    new(F, dialog('Recomendador Agricola')),
-    send(F, append, new(_, label(ayuda, 'TIP: Al seleccionar una opcion, el boton de ayuda se actualiza.'))),
+    new(F, dialog('Perfil de tu Tierra (Cultivos)')),
+    send(F, append, new(_, label(ayuda, 'Ingresa los datos de tu tierra para saber que semilla comprar:'))),
     send(F, append, new(_, label(e0, ' '))),
 
     send(F, append, new(MenuPH, menu('pH del Suelo', cycle))), send_list(MenuPH, append, [acido, neutro, alcalino]),
@@ -109,7 +118,7 @@ modulo_recomendar_agro :-
     send(MenuEst, message, message(@prolog, actualizar_label_boton, MenuEst?selection, BtnEst)),
     
     send(F, append, new(_, label(e, ' '))),
-    send(F, append, button('GENERAR RECOMENDACION', message(@prolog, recomendar_agro, MenuPH?selection, InTemp?selection, MenuT?selection, MenuHum?selection, MenuEst?selection))),
+    send(F, append, button('BUSCAR MEJORES CULTIVOS', message(@prolog, recomendar_agro, MenuPH?selection, InTemp?selection, MenuT?selection, MenuHum?selection, MenuEst?selection))),
     send(F, append, button('Volver', message(F, destroy))),
     send(F, open_centered).
 
@@ -118,10 +127,10 @@ modulo_recomendar_agro :-
 % ==========================================
 iniciar_recomendador :-
     new(Menu, dialog('SISTEMA DE RECOMENDACIONES AGROPECUARIAS')),
-    send(Menu, append, new(_, label(t1, 'Que tipo de recomendacion necesitas hoy?'))),
+    send(Menu, append, new(_, label(t1, 'Que vas a producir hoy?'))),
     send(Menu, append, new(_, label(e1, ' '))),
-    send(Menu, append, button('Recomendacion para Sembrar (Suelo)', message(@prolog, modulo_recomendar_agro))),
-    send(Menu, append, button('Recomendacion de Lote (Bovinos)', message(@prolog, modulo_recomendar_zoo))),
+    send(Menu, append, button('Quiero Sembrar (Cultivos)', message(@prolog, modulo_recomendar_agro))),
+    send(Menu, append, button('Quiero Ganaderia (Bovinos)', message(@prolog, modulo_recomendar_zoo))),
     send(Menu, append, new(_, label(e2, ' '))),
     send(Menu, append, button('Cerrar Sistema', message(Menu, destroy))),
     send(Menu, open_centered).
