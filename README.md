@@ -50,4 +50,4 @@ El proyecto utiliza conceptos avanzados de programación lógica:
 * **UI Reactiva:** Uso de mensajes `send` en XPCE para actualizar etiquetas de botones en tiempo real según la selección del usuario.
 
 ---
-Desarrollado como proyecto de Inteligencia Artificial / Programación Lógica.
+Desarrollado como proyecto de / Programación Lógica.
