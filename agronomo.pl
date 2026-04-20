@@ -23,7 +23,6 @@ tip_medir_hum :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'S
 % ==========================================
 % 2. GENERADORES DE REPORTES GRAFICOS
 % ==========================================
-% NUEVO REPORTE ZOOTECNICO (Modo Recomendacion)
 generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     new(V, dialog('Dictamen Zootecnico de Compra')),
     send(V, append, new(L, list_browser)), send(L, size, size(90, 10)),
@@ -72,7 +71,6 @@ modulo_recomendar_zoo :-
     send(F, append, new(_, label(ayuda, 'Ingresa las condiciones de tu finca para saber que raza comprar:'))),
     send(F, append, new(_, label(e0, ' '))),
     
-    % Se elimino la Raza. Ahora empezamos directo por el Proposito.
     send(F, append, new(InProp, menu('Proposito', cycle))), send_list(InProp, append, [carne, leche, doble_proposito]),
     send(F, append, new(BtnProp, button('? carne', message(@prolog, mostrar_tip_dinamico, InProp?selection))), right),
     send(InProp, message, message(@prolog, actualizar_label_boton, InProp?selection, BtnProp)),
