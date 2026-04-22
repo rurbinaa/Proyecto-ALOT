@@ -5,7 +5,6 @@
 
 :- consult('base_conocimiento.pl').
 
-% --- NUEVAS REGLAS DE RECOMENDACION ZOOTECNICA ---
 % ¿Quien tolera que clima? (El que tolera severo, aguanta todo)
 tolera_clima(severo, severo).
 tolera_clima(moderado, severo).

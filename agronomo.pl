@@ -23,7 +23,7 @@ tip_medir_hum :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'S
 % ==========================================
 % 2. GENERADORES DE REPORTES GRAFICOS
 % ==========================================
-% NUEVO: Dibujador de Fichas Tecnicas Agricolas
+% Dibujador de Fichas Tecnicas Agricolas
 mostrar_ficha_cultivo(NomCultivo) :-
     ficha_cultivo(NomCultivo, Siembra, Cosecha, Riego, Extra),
     atomic_list_concat(['Ficha Tecnica: ', NomCultivo], TituloVentana),
@@ -61,7 +61,7 @@ generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     
     send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered).
 
-% REPORTE AGRICOLA REPARADO (Sin alargar la pantalla)
+% REPORTE AGRICOLA
 recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
     parse_num(TempStr, ResTemp),
     ( ResTemp = num(N_Temp) ->
