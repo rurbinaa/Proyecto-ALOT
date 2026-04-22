@@ -16,7 +16,7 @@ Este es un **Sistema Experto modular** desarrollado en **Prolog** utilizando la 
 * **Protección UV:** Lógica avanzada que detecta razas sensibles a la radiación solar para prevenir enfermedades como el cáncer de ojo o quemaduras.
 * **Optimización de Recursos:** Recomendaciones sobre fotoperiodo (horas de luz) para aumentar la producción láctea.
 
-## 🛠️ Arquitectura del Proyecto
+##  Arquitectura del Proyecto
 
 El sistema está diseñado bajo un modelo modular para facilitar su mantenimiento y escalabilidad:
 
@@ -29,7 +29,7 @@ El sistema está diseñado bajo un modelo modular para facilitar su mantenimient
 * [SWI-Prolog](https://www.swi-prolog.org/) (Versión 8.0 o superior recomendada).
 * Librería XPCE (incluida por defecto en la instalación estándar de SWI-Prolog).
 
-## 💻 Instalación y Uso
+##  Instalación y Uso
 
 1.  Descarga los tres archivos (`.pl`) en una misma carpeta.
 2.  Abre la terminal de SWI-Prolog en esa ruta.
@@ -42,7 +42,7 @@ El sistema está diseñado bajo un modelo modular para facilitar su mantenimient
     ?- iniciar_recomendador.
     ```
 
-## 🧠 Lógica de Programación
+##  Lógica de Programación
 
 El proyecto utiliza conceptos avanzados de programación lógica:
 * **Unificación y Backtracking:** Para el filtrado de cultivos compatibles.
