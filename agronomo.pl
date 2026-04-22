@@ -61,25 +61,40 @@ generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     
     send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered).
 
-% MODIFICADO: Reporte Agricola ahora incluye boton de Ficha Tecnica
+% REPORTE AGRICOLA REPARADO (Sin alargar la pantalla)
 recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
     parse_num(TempStr, ResTemp),
     ( ResTemp = num(N_Temp) ->
         ( UnidadT == fahrenheit -> TempC is (N_Temp - 32) * 5 / 9 ; TempC = N_Temp ),
+        
+        % 1. Recolectamos a todos los ganadores en una sola lista invisible primero
+        findall(Nom, 
+            (cultivo(Nom, MinPH, MaxPH, MinT, MaxT, MinH, MaxH, Estacion),
+             eval_ph(CatPH, MinPH, MaxPH), TempC >= MinT, TempC =< MaxT, eval_hum(CatHum, MinH, MaxH)), 
+            CultivosGanadores),
+            
         new(V, dialog('Dictamen Agricola')),
         send(V, append, new(L, list_browser)), send(L, size, size(80, 8)),
         
-        (   cultivo(Nom, MinPH, MaxPH, MinT, MaxT, MinH, MaxH, Estacion),
-            eval_ph(CatPH, MinPH, MaxPH), TempC >= MinT, TempC =< MaxT, eval_hum(CatHum, MinH, MaxH),
-            % Agregamos la recomendacion a la lista visual
-            atomic_list_concat(['[RECOMENDADO] Siembla ', Nom, ' sin problemas.'], Fila), send(L, append, Fila),
-            % NUEVO: Agregamos un boton interactivo por CADA cultivo recomendado
-            atomic_list_concat(['Ver Ficha de ', Nom], TxtBoton),
-            send(V, append, button(TxtBoton, message(@prolog, mostrar_ficha_cultivo, Nom))),
-            fail
-        ;   true ),
-        ( get(L?members, size, 0) -> send(L, append, 'ALERTA: Ningun cultivo se adapta a estos rangos.') ; true ),
+        % 2. Si hay ganadores, los mostramos
+        ( CultivosGanadores \== [] ->
+            
+            % Escribimos el texto en la caja negra
+            ( member(C, CultivosGanadores),
+              atomic_list_concat(['[RECOMENDADO] Siembla ', C, ' sin problemas.'], Fila),
+              send(L, append, Fila), fail
+            ; true ),
+            
+            % 3. LA MAGIA: Un solo menu desplegable y un solo boton
+            send(V, append, new(_, label(e, ' '))),
+            send(V, append, new(MenuFichas, menu('Selecciona para ver Ficha:', cycle))),
+            send_list(MenuFichas, append, CultivosGanadores),
+            send(V, append, button('Abrir Ficha Tecnica', message(@prolog, mostrar_ficha_cultivo, MenuFichas?selection)))
+            
+        ;   send(L, append, 'ALERTA: Ningun cultivo se adapta a estos rangos.')
+        ),
         
+        send(V, append, new(_, label(e2, ' '))),
         send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered)
     ;   send(@display, inform, 'Por favor ingresa la temperatura numerica (Ej: 25.5)')
     ).
