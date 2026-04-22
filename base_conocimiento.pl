@@ -122,3 +122,71 @@ info_ayuda(primavera, 'Primavera: Dias largos y clima suave. Ideal para germinac
 info_ayuda(verano, 'Verano: Exceso de sol y calor. Requiere cultivos que no se marchiten facil.').
 info_ayuda(otono, 'Otono: Clima fresco, ideal para hojas verdes y tuberculos.').
 info_ayuda(invierno, 'Invierno: Riesgo de heladas mortales para cultivos tropicales.').
+
+% ==========================================
+% 5. FICHAS TECNICAS DE CULTIVOS (52 Cultivos)
+% Estructura: ficha_cultivo(Nombre, MesSiembra, MesCosecha, Riego, Extra).
+% ==========================================
+
+% --- Fichas de Primavera ---
+ficha_cultivo('Tomate', 'Marzo a Mayo', 'Junio a Agosto', 'Riego diario por goteo a la raiz.', 'Requiere tutoreo. Susceptible a hongos.').
+ficha_cultivo('Frijol', 'Febrero a Abril', 'Mayo a Julio', 'Moderado cada 3 dias.', 'Fija nitrogeno. Excelente para rotar suelos.').
+ficha_cultivo('Maiz', 'Marzo a Mayo', 'Julio a Septiembre', 'Abundante durante la floracion (espigamiento).', 'Demanda mucho nitrogeno. Sembrar en bloques.').
+ficha_cultivo('Lechuga', 'Marzo a Mayo', 'Mayo a Julio', 'Frecuente y superficial.', 'Sensible al sol directo extremo.').
+ficha_cultivo('Pepino', 'Marzo a Mayo', 'Junio a Agosto', 'Abundante y regular.', 'Requiere entutorado o malla para trepar.').
+ficha_cultivo('Pimiento', 'Marzo a Mayo', 'Julio a Septiembre', 'Moderado a la raiz.', 'Sensible a cambios bruscos de temperatura.').
+ficha_cultivo('Berenjena', 'Marzo a Mayo', 'Julio a Septiembre', 'Abundante.', 'Muy exigente en nutrientes, usar composta.').
+ficha_cultivo('Calabacin', 'Marzo a Mayo', 'Junio a Agosto', 'Frecuente.', 'Cosechar inmaduro para mejor textura y sabor.').
+ficha_cultivo('Melon', 'Marzo a Mayo', 'Julio a Septiembre', 'Abundante, suspender antes de cosecha.', 'El exceso de agua al final raja la fruta.').
+ficha_cultivo('Fresa', 'Marzo a Mayo', 'Junio a Agosto', 'Goteo constante.', 'Usar plastico o paja para que la fruta no toque el suelo.').
+ficha_cultivo('Mani', 'Marzo a Mayo', 'Agosto a Octubre', 'Moderado.', 'La flor fecundada se entierra para formar el mani.').
+ficha_cultivo('Girasol', 'Marzo a Mayo', 'Agosto a Septiembre', 'Poco frecuente pero profundo.', 'Excelente atrayente de abejas polinizadoras.').
+ficha_cultivo('Cilantro', 'Marzo a Mayo', 'Mayo a Julio', 'Frecuente.', 'Tiende a espigar rapido con calor excesivo.').
+ficha_cultivo('Albahaca', 'Marzo a Mayo', 'Junio a Agosto', 'Moderado.', 'Cortar las flores para mantener el sabor de las hojas.').
+ficha_cultivo('Soya', 'Marzo a Mayo', 'Julio a Septiembre', 'Moderado.', 'Cultivo fijador de nitrogeno, enriquece el suelo.').
+ficha_cultivo('Menta', 'Marzo a Mayo', 'Todo el ano', 'Abundante.', 'Invasiva. Recomendable plantar en macetas.').
+ficha_cultivo('Romero', 'Marzo a Mayo', 'Todo el ano', 'Escaso, tolera la sequia.', 'Prefiere suelos arenosos y muy bien drenados.').
+ficha_cultivo('Tomillo', 'Marzo a Mayo', 'Todo el ano', 'Escaso.', 'Muy sensible al encharcamiento y hongos de raiz.').
+ficha_cultivo('Oregano', 'Marzo a Mayo', 'Todo el ano', 'Moderado.', 'Mejora su aroma si crece en suelos algo pobres.').
+ficha_cultivo('Arroz', 'Marzo a Mayo', 'Agosto a Octubre', 'Inundacion parcial o constante.', 'Requiere nivelacion perfecta del terreno.').
+
+% --- Fichas de Verano ---
+ficha_cultivo('Sandia', 'Abril a Junio', 'Julio a Septiembre', 'Abundante, suspender al final.', 'Demanda muchisimo espacio para extender sus guias.').
+ficha_cultivo('Calabaza', 'Mayo a Julio', 'Septiembre a Noviembre', 'Moderado.', 'Soporta suelos pesados y algo arcillosos.').
+ficha_cultivo('Quinoa', 'Mayo a Julio', 'Agosto a Octubre', 'Poco riego, resistente a sequia.', 'Sensible al exceso de humedad en el suelo.').
+ficha_cultivo('Sorgo', 'Mayo a Julio', 'Septiembre a Noviembre', 'Escaso.', 'Altamente tolerante al calor extremo.').
+ficha_cultivo('Camote', 'Mayo a Julio', 'Septiembre a Noviembre', 'Moderado.', 'El suelo debe estar muy suelto para engrosar la raiz.').
+ficha_cultivo('Yuca', 'Mayo a Julio', 'Diciembre a Febrero', 'Poco riego.', 'Cultivo rustico, crece bien incluso en suelos pobres.').
+ficha_cultivo('Okra', 'Mayo a Julio', 'Julio a Septiembre', 'Moderado.', 'Cosechar las vainas tiernas antes de que se pongan fibrosas.').
+
+% --- Fichas de Otono ---
+ficha_cultivo('Zanahoria', 'Agosto a Octubre', 'Noviembre a Enero', 'Ligero y constante.', 'El suelo no debe tener piedras o crecera deforme.').
+ficha_cultivo('Espinaca', 'Agosto a Octubre', 'Octubre a Diciembre', 'Frecuente.', 'Sufre y se marchita con el calor extremo.').
+ficha_cultivo('Brocoli', 'Agosto a Octubre', 'Noviembre a Enero', 'Frecuente.', 'Exigente en boro. Cosechar antes de que abra la flor amarilla.').
+ficha_cultivo('Coliflor', 'Agosto a Octubre', 'Diciembre a Febrero', 'Moderado.', 'Atar las hojas sobre la cabeza para que se mantenga blanca.').
+ficha_cultivo('Repollo', 'Agosto a Octubre', 'Diciembre a Febrero', 'Frecuente.', 'Vigilar constantemente plagas como pulgones y orugas.').
+ficha_cultivo('Rabano', 'Agosto a Octubre', 'Septiembre a Noviembre', 'Frecuente.', 'Crecimiento super rapido, cosecha en solo 30 a 40 dias.').
+ficha_cultivo('Remolacha', 'Agosto a Octubre', 'Noviembre a Enero', 'Moderado.', 'Se pueden consumir tanto sus hojas como la raiz.').
+ficha_cultivo('Acelga', 'Agosto a Octubre', 'Noviembre a Enero', 'Frecuente.', 'Permite multiples cosechas cortando las hojas externas.').
+ficha_cultivo('Puerro', 'Agosto a Octubre', 'Diciembre a Febrero', 'Moderado.', 'Aporcar (echar tierra al tallo) para mantenerlo blanco.').
+ficha_cultivo('Apio', 'Agosto a Octubre', 'Noviembre a Enero', 'Abundante y constante.', 'Cultivo lento y muy exigente en humedad y nutrientes.').
+ficha_cultivo('Nabo', 'Agosto a Octubre', 'Octubre a Diciembre', 'Frecuente.', 'Sufre mucho si pasa periodos de sequia cortos.').
+ficha_cultivo('Guisante', 'Agosto a Octubre', 'Noviembre a Enero', 'Moderado.', 'Requiere malla o tutoreo para sostener la planta.').
+ficha_cultivo('Lenteja', 'Agosto a Octubre', 'Diciembre a Febrero', 'Poco riego.', 'Muy sensible a la humedad excesiva (pudricion).').
+ficha_cultivo('Garbanzo', 'Agosto a Octubre', 'Diciembre a Febrero', 'Escaso.', 'Extremadamente tolerante a condiciones de sequia.').
+ficha_cultivo('Perejil', 'Agosto a Octubre', 'Noviembre a Enero', 'Moderado.', 'Germinacion muy lenta (puede tardar hasta un mes).').
+
+% --- Fichas de Invierno ---
+ficha_cultivo('Papa', 'Octubre a Diciembre', 'Febrero a Abril', 'Profundo 2 veces por semana.', 'Aporcar es vital para que las papas no se pongan verdes.').
+ficha_cultivo('Cebolla', 'Octubre a Diciembre', 'Marzo a Mayo', 'Frecuente al inicio, nulo al final.', 'Suspender riego semanas antes de cosecha para curar el bulbo.').
+ficha_cultivo('Ajo', 'Octubre a Diciembre', 'Mayo a Julio', 'Moderado.', 'Plantar el diente de ajo siempre con la punta hacia arriba.').
+ficha_cultivo('Trigo', 'Octubre a Diciembre', 'Mayo a Julio', 'Depende de lluvia (secano).', 'Vigilar enfermedades fungicas como la roya.').
+ficha_cultivo('Avena', 'Octubre a Diciembre', 'Abril a Junio', 'Moderado.', 'Excelente cultivo como forraje invernal para ganado.').
+ficha_cultivo('Cebada', 'Octubre a Diciembre', 'Mayo a Julio', 'Poco riego.', 'Tiene un ciclo mas corto y es mas rustica que el trigo.').
+ficha_cultivo('Centeno', 'Octubre a Diciembre', 'Mayo a Julio', 'Escaso.', 'El cereal mas resistente, crece en suelos helados y pobres.').
+ficha_cultivo('Habas', 'Octubre a Diciembre', 'Marzo a Mayo', 'Moderado.', 'Planta robusta que resiste heladas moderadas sin problemas.').
+ficha_cultivo('Esparrago', 'Octubre a Diciembre', 'Marzo a Mayo', 'Frecuente en verano.', 'Cultivo perenne. La misma planta puede producir por 10 anos.').
+ficha_cultivo('Alcachofa', 'Octubre a Diciembre', 'Marzo a Mayo', 'Abundante.', 'Planta gigante, requiere mas de 1 metro cuadrado por individuo.').
+
+% Seguro de vida (Si falta alguna ficha, esta evita que el sistema explote)
+ficha_cultivo(Cultivo, 'Consultar calendario local', 'Variable', 'Riego regular segun el clima.', 'Monitorear plagas de la region.') :- \+ ficha_cultivo(Cultivo, _, _, _, _).

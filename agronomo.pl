@@ -23,19 +23,35 @@ tip_medir_hum :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'S
 % ==========================================
 % 2. GENERADORES DE REPORTES GRAFICOS
 % ==========================================
+% NUEVO: Dibujador de Fichas Tecnicas Agricolas
+mostrar_ficha_cultivo(NomCultivo) :-
+    ficha_cultivo(NomCultivo, Siembra, Cosecha, Riego, Extra),
+    atomic_list_concat(['Ficha Tecnica: ', NomCultivo], TituloVentana),
+    new(V, dialog(TituloVentana)),
+    send(V, size, size(400, 250)),
+    
+    send(V, append, new(_, label(t1, '=== CRONOGRAMA ==='))),
+    atomic_list_concat(['Meses de Siembra: ', Siembra], TxtSiembra), send(V, append, new(_, label(l1, TxtSiembra))),
+    atomic_list_concat(['Meses de Cosecha: ', Cosecha], TxtCosecha), send(V, append, new(_, label(l2, TxtCosecha))),
+    
+    send(V, append, new(_, label(e1, ' '))),
+    send(V, append, new(_, label(t2, '=== MANEJO AGRONOMICO ==='))),
+    atomic_list_concat(['Riego: ', Riego], TxtRiego), send(V, append, new(_, label(l3, TxtRiego))),
+    atomic_list_concat(['Cuidados: ', Extra], TxtExtra), send(V, append, new(_, label(l4, TxtExtra))),
+    
+    send(V, append, new(_, label(e2, ' '))),
+    send(V, append, button('Cerrar Ficha', message(V, destroy))),
+    send(V, open_centered).
+
 generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     new(V, dialog('Dictamen Zootecnico de Compra')),
     send(V, append, new(L, list_browser)), send(L, size, size(90, 10)),
     
     send(L, append, '--- RAZAS IDEALES PARA COMPRAR ---'),
-    
-    % Bucle que busca todas las vacas que cumplan con los requisitos
     (   buscar_raza_ideal(Prop, Est, Luz, RazaIdeal),
         atomic_list_concat(['> Puedes comprar: [', RazaIdeal, '] - Soporta tus condiciones.'], Fila), 
         send(L, append, Fila), fail
     ;   true ),
-    
-    % Validacion si ninguna vaca sobrevive
     ( get(L?members, size, 1) -> send(L, append, 'ALERTA: Ninguna raza bovina sobrevivira a estas condiciones extremas.') ; true ),
     
     send(L, append, ' '),
@@ -45,17 +61,22 @@ generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     
     send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered).
 
-% REPORTE AGRICOLA (Se mantiene igual)
+% MODIFICADO: Reporte Agricola ahora incluye boton de Ficha Tecnica
 recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
     parse_num(TempStr, ResTemp),
     ( ResTemp = num(N_Temp) ->
         ( UnidadT == fahrenheit -> TempC is (N_Temp - 32) * 5 / 9 ; TempC = N_Temp ),
         new(V, dialog('Dictamen Agricola')),
-        send(V, append, new(L, list_browser)), send(L, size, size(70, 8)),
+        send(V, append, new(L, list_browser)), send(L, size, size(80, 8)),
         
         (   cultivo(Nom, MinPH, MaxPH, MinT, MaxT, MinH, MaxH, Estacion),
             eval_ph(CatPH, MinPH, MaxPH), TempC >= MinT, TempC =< MaxT, eval_hum(CatHum, MinH, MaxH),
-            atomic_list_concat(['[RECOMENDADO] Siembla ', Nom, ' sin problemas.'], Fila), send(L, append, Fila), fail
+            % Agregamos la recomendacion a la lista visual
+            atomic_list_concat(['[RECOMENDADO] Siembla ', Nom, ' sin problemas.'], Fila), send(L, append, Fila),
+            % NUEVO: Agregamos un boton interactivo por CADA cultivo recomendado
+            atomic_list_concat(['Ver Ficha de ', Nom], TxtBoton),
+            send(V, append, button(TxtBoton, message(@prolog, mostrar_ficha_cultivo, Nom))),
+            fail
         ;   true ),
         ( get(L?members, size, 0) -> send(L, append, 'ALERTA: Ningun cultivo se adapta a estos rangos.') ; true ),
         
