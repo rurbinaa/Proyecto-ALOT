@@ -16,9 +16,21 @@ mostrar_tip_dinamico(OpcionElegida) :-
     send(V, append, new(_, label(l1, TextoAyuda))),
     send(V, open_centered).
 
-tip_medir_ph :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'Vinagre hace espuma = Alcalino. Bicarbonato = Acido.'))), send(V, open_centered).
+tip_medir_ph :- 
+    new(V, dialog('Tips para medir pH de forma casera')), 
+    send(V, append, new(_, label(l1, '1. Si al echarle vinagre hace espuma -> El suelo es Alcalino.'))), 
+    send(V, append, new(_, label(l2, '2. Si al echarle agua y bicarbonato hace espuma -> El suelo es Acido.'))), 
+    send(V, append, new(_, label(l3, '3. Si ninguna de las dos mezclas reacciona -> El suelo es Neutro.'))), 
+    send(V, open_centered).
 tip_medir_temp :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'Termometro a 1.5m del suelo, a la sombra.'))), send(V, open_centered).
-tip_medir_hum :- new(V, dialog('Medicion')), send(V, append, new(_, label(l1, 'Si escurre agua al apretar la tierra = Alta.'))), send(V, open_centered).
+tip_medir_hum :- 
+    new(V, dialog('Tips para medir Humedad (Prueba del puno)')), 
+    send(V, append, new(_, label(titulo, 'Toma un punado de tierra del terreno a sembrar y aprietalo fuerte:'))),
+    send(V, append, new(_, label(espacio, ' '))),
+    send(V, append, new(_, label(l1, '1. Si se desmorona y no forma una bola -> Humedad BAJA.'))), 
+    send(V, append, new(_, label(l2, '2. Si forma una bola firme pero no gotea -> Humedad MODERADA.'))), 
+    send(V, append, new(_, label(l3, '3. Si escurre lodo o agua entre tus dedos -> Humedad ALTA.'))), 
+    send(V, open_centered).
 
 % ==========================================
 % 2. GENERADORES DE REPORTES GRAFICOS
@@ -81,7 +93,7 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
             
             % Escribimos el texto en la caja negra
             ( member(C, CultivosGanadores),
-              atomic_list_concat(['[RECOMENDADO] Siembla ', C, ' sin problemas.'], Fila),
+              atomic_list_concat(['[RECOMENDADO] Siembra ', C, ' sin problemas.'], Fila),
               send(L, append, Fila), fail
             ; true ),
             
