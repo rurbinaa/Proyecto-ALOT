@@ -93,13 +93,12 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
         % 2. Si hay ganadores, los mostramos
         ( CultivosGanadores \== [] ->
             
-            % Escribimos el texto en la caja negra
             ( member(C, CultivosGanadores),
               atomic_list_concat(['[RECOMENDADO] Siembra ', C, ' sin problemas.'], Fila),
               send(L, append, Fila), fail
             ; true ),
             
-            % 3. LA MAGIA: Un solo menu desplegable y un solo boton
+            % 3. Un solo menu desplegable y un solo boton
             send(V, append, new(_, label(e, ' '))),
             send(V, append, new(MenuFichas, menu('Selecciona para ver Ficha:', cycle))),
             send_list(MenuFichas, append, CultivosGanadores),
@@ -111,7 +110,7 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
         send(V, append, new(_, label(e2, ' '))),
         send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered)
         
-    ;   % ----- AQUÍ ESTÁ EL CAMBIO DE LA VENTANA DE ERROR -----
+    ;   % VENTANA DE ERROR
         new(Err, dialog('Error de Entrada')),
         send(Err, append, label(msg, 'Por favor ingresa la temperatura numerica (Ej: 25.5)')),
         send(Err, append, button(entendido, message(Err, destroy))),
