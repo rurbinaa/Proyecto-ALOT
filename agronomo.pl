@@ -73,7 +73,9 @@ generar_recomendacion_zoo(Prop, Nut, Est, Luz) :-
     
     send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered).
 
+% ==========================================
 % REPORTE AGRICOLA
+% ==========================================
 recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
     parse_num(TempStr, ResTemp),
     ( ResTemp = num(N_Temp) ->
@@ -108,7 +110,12 @@ recomendar_agro(CatPH, TempStr, UnidadT, CatHum, Estacion) :-
         
         send(V, append, new(_, label(e2, ' '))),
         send(V, append, button('Cerrar Dictamen', message(V, destroy))), send(V, open_centered)
-    ;   send(@display, inform, 'Por favor ingresa la temperatura numerica (Ej: 25.5)')
+        
+    ;   % ----- AQUÍ ESTÁ EL CAMBIO DE LA VENTANA DE ERROR -----
+        new(Err, dialog('Error de Entrada')),
+        send(Err, append, label(msg, 'Por favor ingresa la temperatura numerica (Ej: 25.5)')),
+        send(Err, append, button(entendido, message(Err, destroy))),
+        send(Err, open_centered)
     ).
 
 % ==========================================
