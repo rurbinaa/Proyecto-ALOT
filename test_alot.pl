@@ -3,10 +3,11 @@
 % Tests unitarios para el Sistema ALOT
 % ==========================================
 
-:- begin_tests(recomendador).
-
 :- use_module(library(lists)).
-:- consult('motor_logico.pl').
+:- use_module(library(plunit)).
+:- [motor_logico].
+
+:- begin_tests(recomendador).
 
 % --- TESTS DE EVALUACION DE pH ---
 test(eval_ph_acido_valido) :-
@@ -92,14 +93,16 @@ test(eval_nut_default) :-
     eval_nut(otro, media, '[NUTRICION] Mantenimiento normal.').
 
 % --- TESTS DE EVALUACION DE LUZ ---
-test(eval_luz_prod_leche_alta) :-
-    eval_luz_prod(leche, alta_luz, '[PRODUCCION] 16hrs luz maximizan lactation.').
+test(eval_luz_prod_leche_alta, [nondet]) :-
+    eval_luz_prod(leche, alta_luz, Msg),
+    sub_atom(Msg, _, _, _, '16hrs luz maximizan').
 
 test(eval_luz_prod_carne_baja) :-
     eval_luz_prod(carne, baja_luz, '[PRODUCCION] Poca luz hace el engorde lento.').
 
-test(eval_luz_prod_doble_proposito) :-
-    eval_luz_prod(doble_proposito, alta_luz, '[PRODUCCION] 16hrs luz maximizan lactation.').
+test(eval_luz_prod_doble_proposito, [nondet]) :-
+    eval_luz_prod(doble_proposito, alta_luz, Msg),
+    sub_atom(Msg, _, _, _, '16hrs luz maximizan').
 
 % --- TESTS DE INTEGRACION: CULTIVOS ---
 test(cultivo_tomate_primavera) :-

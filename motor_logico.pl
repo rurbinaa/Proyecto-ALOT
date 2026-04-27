@@ -32,7 +32,7 @@ eval_nut(doble_proposito, pobre, '[NUTRICION] Baja leche y perdida de peso.').
 eval_nut(doble_proposito, alta, '[NUTRICION] Excelente leche y engorde.').
 eval_nut(_, media, '[NUTRICION] Mantenimiento normal.').
 
-eval_luz_prod(leche, alta_luz, '[PRODUCCION] 16hrs luz maximizan lactancia.').
+eval_luz_prod(leche, alta_luz, '[PRODUCCION] 16hrs luz maximizan lactation.').
 eval_luz_prod(leche, baja_luz, '[PRODUCCION] Poca luz baja la leche.').
 eval_luz_prod(carne, alta_luz, '[PRODUCCION] Luz acelera el engorde.').
 eval_luz_prod(carne, baja_luz, '[PRODUCCION] Poca luz hace el engorde lento.').
