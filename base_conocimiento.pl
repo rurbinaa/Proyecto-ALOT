@@ -66,7 +66,8 @@ cultivo('Esparrago', 6.5, 7.5, 15.0, 25.0, 50.0, 70.0, invierno).
 cultivo('Alcachofa', 6.0, 7.0, 15.0, 24.0, 50.0, 75.0, invierno).
 
 
-% --- 2. DATOS ZOOTECNICOS (Razas con Gen UV) ---
+% --- 2. DATOS ZOOTECNICOS (Razas) ---
+% Estructura: raza(Nombre, Proposito, ToleranciaClima, ProteccionUV)
 raza(brahman, carne, severo, resistente_uv).
 raza(nelore, carne, severo, resistente_uv).
 raza(senepol, carne, severo, resistente_uv).
@@ -78,6 +79,36 @@ raza(pardo_suizo, doble_proposito, moderado, resistente_uv).
 raza(angus, carne, leve, resistente_uv).
 raza(hereford, carne, leve, sensible_uv).
 raza(charolais, carne, leve, sensible_uv).
+
+% --- 2.1 TABLAS DE TOLERANCIAS PARAMETRIZADAS ---
+% Estructura: tolerancia_climatica(Raza, MiTolerancia, MinAceptable)
+% Donde: severo >= moderado >= leve
+tolerancia_climatica(brahman, severo, leve).
+tolerancia_climatica(nelore, severo, leve).
+tolerancia_climatica(senepol, severo, leve).
+tolerancia_climatica(holstein, leve, leve).
+tolerancia_climatica(jersey, moderado, leve).
+tolerancia_climatica(gyr, severo, leve).
+tolerancia_climatica(girolando, moderado, leve).
+tolerancia_climatica(pardo_suizo, moderado, leve).
+tolerancia_climatica(angus, leve, leve).
+tolerancia_climatica(hereford, leve, leve).
+tolerancia_climatica(charolais, leve, leve).
+
+% Estructura: tolerancia_uv(Raza, Sensibilidad)
+% resistente_uv puede estar en alta/baja luz
+% sensible_uv solo en baja luz
+tolerancia_uv(brahman, resistente_uv).
+tolerancia_uv(nelore, resistente_uv).
+tolerancia_uv(senepol, resistente_uv).
+tolerancia_uv(holstein, sensible_uv).
+tolerancia_uv(jersey, resistente_uv).
+tolerancia_uv(gyr, resistente_uv).
+tolerancia_uv(girolando, resistente_uv).
+tolerancia_uv(pardo_suizo, resistente_uv).
+tolerancia_uv(angus, resistente_uv).
+tolerancia_uv(hereford, sensible_uv).
+tolerancia_uv(charolais, sensible_uv).
 
 
 % --- 3. DICCIONARIO DE AYUDAS DINAMICAS (ZOO) ---

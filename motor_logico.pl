@@ -5,21 +5,23 @@
 
 :- consult('base_conocimiento.pl').
 
-% ¿Quien tolera que clima? (El que tolera severo, aguanta todo)
-tolera_clima(severo, severo).
-tolera_clima(moderado, severo).
-tolera_clima(moderado, moderado).
-tolera_clima(leve, _). % En clima leve (fresco), todas las vacas sobreviven.
+% Jerarquia de tolerancias climaticas (severo > moderado > leve)
+nivel_tolerancia(severo, 3).
+nivel_tolerancia(moderado, 2).
+nivel_tolerancia(leve, 1).
 
-% ¿Quien tolera la luz?
-tolera_luz(alta_luz, resistente_uv).
-tolera_luz(baja_luz, _). % Si hay poca luz, ninguna vaca se quema.
+nivel_suficiente(Requerido, Ofrecido) :-
+    nivel_tolerancia(Requerido, NReq),
+    nivel_tolerancia(Ofrecido, NOfe),
+    NOfe >= NReq.
 
-% EL MOTOR DE BUSQUEDA: Encuentra la raza perfecta
-buscar_raza_ideal(Prop, Estres, Luz, Raza) :-
-    raza(Raza, Prop, TolCalor, TipoPiel),
-    tolera_clima(TolCalor, Estres),
-    tolera_luz(Luz, TipoPiel).
+% EL MOTOR DE BUSQUEDA: Encuentra la raza perfecta usando tablas parametrizadas
+buscar_raza_ideal(Prop, EstresOfrecido, Luz, Raza) :-
+    raza(Raza, Prop, _, _),
+    tolerancia_climatica(Raza, _, EstresMinimo),
+    nivel_suficiente(EstresMinimo, EstresOfrecido),
+    tolerancia_uv(Raza, TipoPiel),
+    (Luz = alta_luz -> TipoPiel = resistente_uv ; true).
 
 % Evaluaciones secundarias (Nutricion y Luz para produccion)
 eval_nut(carne, pobre, '[NUTRICION] Animales estaran flacos.').
